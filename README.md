@@ -1,4 +1,4 @@
-# AgentOps 🚀
+# MAS Infra Project
 
 A minimal orchestration runtime for multi-agent workflows. Define complex AI agent pipelines using simple YAML configuration files with dependency management, parallel execution, and cost tracking.
 
