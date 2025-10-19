@@ -1,0 +1,33 @@
+name: parallel_data_pipeline
+description: "6-agent pipeline with 3 parallel gatherers to 2 processors to 1 beautifier"
+policies:
+  retries: 2
+  cost_cap: 2.00
+
+agents:
+  - name: news_gatherer
+    model: gpt-4o
+    task: "Find 3 recent tech news headlines and brief summaries. Focus on AI, startups, or innovation."
+  
+  - name: weather_gatherer
+    model: gpt-4o
+    task: "Get current weather information for San Francisco, New York, and London. Include temperature, conditions, and a brief forecast."
+  
+  - name: market_gatherer
+    model: gpt-4o
+    task: "Provide current stock market overview: major indices performance, trending stocks, and market sentiment in 2-3 sentences."
+
+  - name: data_analyzer
+    model: gpt-4o
+    depends_on: [news_gatherer, weather_gatherer, market_gatherer]
+    task: "Analyze the gathered data and identify 3 key insights or patterns across news, weather, and market information."
+  
+  - name: trend_spotter
+    model: gpt-4o
+    depends_on: [news_gatherer, weather_gatherer, market_gatherer]
+    task: "Identify emerging trends and correlations between the news, weather, and market data. Highlight any interesting connections."
+
+  - name: report_beautifier
+    model: gpt-4o
+    depends_on: [data_analyzer, trend_spotter]
+    task: "Create a beautiful, formatted report combining all the analysis. Use clear sections, emojis, and make it visually appealing for CLI display. Include: 1) Executive Summary, 2) Key Insights, 3) Trend Analysis, 4) Conclusion."

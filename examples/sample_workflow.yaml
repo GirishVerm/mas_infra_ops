@@ -1,0 +1,16 @@
+name: research_summary
+description: Simple two-agent workflow example
+policies:
+  retries: 2
+  cost_cap: 1.00
+
+agents:
+  - name: researcher
+    model: gpt-4o
+    task: "Find top 3 YC Requests for Startups related to AI infrastructure."
+  - name: summarizer
+    model: gpt-4o-mini
+    depends_on: researcher
+    task: "Summarize the researcher's findings in 100 words."
+
+

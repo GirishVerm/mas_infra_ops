@@ -1,0 +1,33 @@
+name: creative_content_pipeline
+description: "6-agent creative pipeline: 3 parallel content generators to 2 parallel editors to 1 final publisher"
+policies:
+  retries: 2
+  cost_cap: 2.00
+
+agents:
+  - name: story_generator
+    model: gpt-4o
+    task: "Write a short sci-fi story (200 words) about AI agents working together to solve a complex problem. Make it engaging and include dialogue."
+  
+  - name: poem_generator
+    model: gpt-4o
+    task: "Write a haiku about technology and human collaboration. Then write a limerick about a robot learning to dance."
+  
+  - name: code_generator
+    model: gpt-4o
+    task: "Write a Python function that simulates a simple multi-agent system. Include comments explaining how agents communicate and coordinate."
+
+  - name: content_editor
+    model: gpt-4o
+    depends_on: [story_generator, poem_generator, code_generator]
+    task: "Review all the creative content and provide constructive feedback. Suggest improvements for clarity, creativity, and technical accuracy. Be specific and helpful."
+  
+  - name: style_analyzer
+    model: gpt-4o
+    depends_on: [story_generator, poem_generator, code_generator]
+    task: "Analyze the writing styles, themes, and technical approaches used across the different content types. Identify common patterns and unique elements."
+
+  - name: final_publisher
+    model: gpt-4o
+    depends_on: [content_editor, style_analyzer]
+    task: "Create a beautiful, formatted publication combining all the content, feedback, and analysis. Use markdown formatting, emojis, and clear sections. Include: 1) Creative Works Showcase, 2) Editorial Feedback, 3) Style Analysis, 4) Final Thoughts. Make it look professional and engaging."
